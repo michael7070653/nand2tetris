@@ -53,6 +53,7 @@ class Code:
         "D>>": "010010000",
         "M>>": "011000000"
     }
+    ## resubmission changes from ADM -> AMD
 
     JUMP_ARR = {
         "null":"000",
