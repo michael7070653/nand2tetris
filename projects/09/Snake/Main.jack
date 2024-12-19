@@ -1,8 +1,5 @@
 class Main{
 
-
-
-
     function void main(){
         var Game game;
         var int keybord;
@@ -35,15 +32,27 @@ class Main{
         do Output.moveCursor(0, 0);
         let i = 0;
         while(i < rounds){
-          do Output.printString("score of Game number ");
-          do Output.printInt(i  + 1);
-          do Output.printString(" is: ");
-          do Output.printInt(scoreRounds[i]);
-          do Output.println();
-          let i = i + 1;  
+        //   do Output.printString("score of Game number ");
+        //   do Output.printInt(i  + 1);
+        //   do Output.printString(" is: ");
+        //   do Output.printInt(scoreRounds[i]);
+        //   do Output.println();
+            do Main.oneRoundScreen(i, scoreRounds);
+            let i = i + 1;  
         }
         do Main.endGame(maxScore, maxRoundScore);
         do game.dispose();
+        return;
+    }
+
+
+
+    function void oneRoundScreen(int round, Array scoreRounds){
+        do Output.printString("score of Game number ");
+          do Output.printInt(round  + 1);
+          do Output.printString(" is: ");
+          do Output.printInt(scoreRounds[round]);
+          do Output.println();
         return;
     }
 
