@@ -1,0 +1,23 @@
+function WhileIf.main 2
+push argument 0
+pop pointer 0
+label LABEL_9_start
+push local 0
+push local 1
+gt
+not
+if-goto LABEL_10_end
+push local 1
+push constant 0
+gt
+not
+if-goto LABEL_11_start
+push local 1
+pop local 1
+goto LABEL_12_end
+label LABEL_11_start
+label LABEL_12_end
+goto LABEL_9_start
+label LABEL_10_end
+push constant 0
+return

@@ -1,0 +1,73 @@
+class Main{
+
+
+
+
+    function void main(){
+        var Game game;
+        var int keybord;
+        var Snake a;
+        var int rounds, level, i, maxScore, maxRoundScore;
+        var Array scoreRounds, levelWalls;
+        var String levelMessegeString, roundsMessegeString;
+        do Random.setSeed(12);
+        let roundsMessegeString = "Please enter number of rounds: 1 - 10: ";
+        let levelMessegeString = "Please enter number of rounds and level of difficulty: 1, 2 or  3: ";
+        // let level = Keyboard.readInt(levelMessegeString);
+        let rounds = Keyboard.readInt(roundsMessegeString);
+        let scoreRounds = Array.new(rounds);
+        // let levelWalls = Array.new(level);
+        /// here we do some welcome screen
+        ///////here we ask the player to enter number of rounds and level of difficulty
+      let i = 0;
+       while(i < rounds){
+            do Screen.clearScreen();
+            do Output.moveCursor(0, 0);
+            do Output.printString("round number: ");
+            do Output.printInt(i + 1);
+            do Sys.wait(1000);
+            do Screen.clearScreen();
+            do Board.drawFrame();
+            do Output.moveCursor(0, 0);
+            do Output.printString("Score: 0");
+            let game = Game.new(8);
+            let scoreRounds[i] = game.run();
+            if(scoreRounds[i] > maxScore){
+                let maxScore = scoreRounds[i];
+                let maxRoundScore = i + 1;
+            }
+            let i = i + 1;
+        }
+        do Screen.clearScreen();
+        do Output.moveCursor(0, 0);
+        let i = 0;
+        while(i < rounds){
+          do Output.printString("score of Game number ");
+          do Output.printInt(i  + 1);
+          do Output.printString(" is: ");
+          do Output.printInt(scoreRounds[i]);
+          do Output.println();
+          let i = i + 1;  
+        }
+
+        do Output.println();
+        do Output.printString("Game results: ");
+        do Output.println();
+        do Output.println();
+
+        do Output.printString("max score is: ");
+        do Output.printInt(maxScore);
+        do Output.println();
+        do Output.printString("round with max score is roind: ");
+        do Output.printInt(maxRoundScore);
+        do Output.println();
+        do Output.println();
+
+        do Output.printString("Goodbye, see you next time, Good luck!");
+
+
+        return;
+
+    }
+   
+}

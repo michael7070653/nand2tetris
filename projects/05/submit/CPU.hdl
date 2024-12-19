@@ -1,0 +1,108 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/CPU.hdl
+
+/**
+ * The Hack CPU (Central Processing unit), consisting of an ALU,
+ * two registers named A and D, and a program counter named PC.
+ * The CPU is designed to fetch and execute instructions written in 
+ * the Hack machine language. In particular, functions as follows:
+ * Executes the inputted instruction according to the Hack machine 
+ * language specification. The D and A in the language specification
+ * refer to CPU-resident registers, while M refers to the external
+ * memory location addressed by A, i.e. to Memory[A]. The inM input 
+ * holds the value of this location. If the current instruction needs 
+ * to write a value to M, the value is placed in outM, the address 
+ * of the target location is placed in the addressM output, and the 
+ * writeM control bit is asserted. (When writeM==0, any value may 
+ * appear in outM). The outM and writeM outputs are combinational: 
+ * they are affected instantaneously by the execution of the current 
+ * instruction. The addressM and pc outputs are clocked: although they 
+ * are affected by the execution of the current instruction, they commit 
+ * to their new values only in the next time step. If reset==1 then the 
+ * CPU jumps to address 0 (i.e. pc is set to 0 in next time step) rather 
+ * than to the address resulting from executing the current instruction. 
+ */
+
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+    // Put your code here:
+    // Multiplexer to select between instruction and ALU output based on the MSB of the instruction
+    Mux16(a=instruction, b=outAlu, sel=instruction[15], out=outMuxRegA);
+
+    // Invert the MSB of the instruction
+    Not(in=instruction[15], out=aInstruction);
+
+
+    // Logical OR between the inverted MSB of the instruction and bit 5 of the instruction
+    Or(a=aInstruction, b=instruction[5], out=loada);
+    
+    // A register to store the output of the multiplexer, loaded based on the result of the OR gate
+    ARegister(in=outMuxRegA, load=loada, out=outRegA, out[0..14]=addressM);
+
+    // Logical AND between bit 12 and the MSB of the instruction to determine A or M selection
+    And(a=instruction[12], b=instruction[15], out=AorM);
+
+    // Multiplexer to select between the output of the A register and the input M based on AorM
+    Mux16(a=outRegA, b=inM, sel = AorM, out=outToAluY);
+
+    // Logical AND between the MSB and bit 4 of the instruction to determine D register load
+    And(a=instruction[15],b=instruction[4],out=Dload);
+
+    // D register to store the output of the ALU, loaded based on the result of the AND gate
+    DRegister(in=outAlu, load=Dload, out=outDregister);
+
+    // ALU to perform arithmetic and logic operations based on the instruction bits
+    ALU(x=outDregister, y=outToAluY, zx=instruction[11], nx=instruction[10],
+     zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out= outM, out = outAlu, zr=zr, ng=ng);
+     
+    // Logical AND between bit 3 and the MSB of the instruction to determine memory write
+    And(a=instruction[3], b=instruction[15], out=writeM);
+    //////////////////////////////////////////////////////
+    // Logical AND of the reset signal with itself (essentially a pass-through)
+    And(a=reset, b=reset, out=outRes);
+
+    // Invert the negative flag from the ALU to determine if the ALU output is non-negative
+    Not(in=ng, out=notng);///if outalu>=0 so !ng = 1
+
+    // Invert the zero flag from the ALU to determine if the ALU output is non-zero
+    Not(in=zr, out=notzr);///if outalu!=0 so !zr = 1
+
+
+    ////>0
+    // Logical AND to determine if the ALU output is greater than zero
+    And(a=notng, b=notzr, out=bigZero);
+    And(a=bigZero, b=instruction[0], out=jumpBigzero);
+
+    /////==0
+    // Logical AND to determine if a jump should occur when the ALU output is equal to zero
+    And(a=zr, b=instruction[1], out=jumpEqzero);
+
+    //////<0
+    // Logical AND to determine if a jump should occur when the ALU output is less than zero
+    And(a=instruction[2], b=ng, out=jumpleszero);
+
+    // Logical OR to combine the jump conditions for greater than zero and less than zero
+    Or(a=jumpBigzero, b=jumpleszero, out=s1);
+    // Logical OR to combine the previous result with the jump condition for equal to zero
+    Or(a=s1, b=jumpEqzero, out=s2);
+
+    // Logical AND to determine if a jump should occur based on the combined conditions and the MSB of the instruction
+    And(a=s2, b=instruction[15], out=s3);
+    
+    // Program Counter to store the next instruction address, loaded based on the result of the AND gate
+    PC(in=outRegA, load=s3, inc=true, reset=reset, out[0..14]=pc);
+}

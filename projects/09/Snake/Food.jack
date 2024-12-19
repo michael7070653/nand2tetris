@@ -1,0 +1,74 @@
+class Food{
+    field int top_left_corner_x, top_left_corner_y;
+    field int size;
+    field int score;
+
+    constructor Food new(int x, int y, int unitSize){
+        let top_left_corner_x = x;
+        let top_left_corner_y = y;
+        let size = unitSize;
+        // do setRandomCords();
+        do Board.setFood(x, y, unitSize, true);
+        let score = 0;
+        return this;
+    }
+
+
+    method int getX(){
+        return top_left_corner_x;
+    }
+
+    method int getY(){
+        return top_left_corner_y;
+    }
+    method void setRandomCords(){
+        var int x, y;
+        let x = Random.randRange((500) - (2 * size)) / 2 * 2;
+        let x = Math.max(x, 10);
+        let y = Random.randRange(250 - (2 * size)) / 2 * 2;
+        let y = Math.max(y, 30);
+        let top_left_corner_x = x;
+        let top_left_corner_y = y;
+        //do Board.setFood(x, y, size, true);  new
+        return;
+    }
+
+
+    method int getScore(){
+        return score;
+    }   
+
+    method boolean collision(Snake snakeHead){
+        var int x, y;
+        var Array head;
+        var boolean col1, col2, col3, col4;
+        let head = snakeHead.getHead();
+        let x = head[1]; 
+        let y = head[2];
+        //////////// check collision from top left corner
+        let col1 = ~(x > (top_left_corner_x + size)) & ~(top_left_corner_x > (x + size));    
+        let col2 = ~(y > (top_left_corner_y + size)) & ~(top_left_corner_y > (y + size));
+
+        //////////// check collision from bottom left corner
+        // let col3 = ~(x < top_left_corner_x) & ~((top_left_corner_x + size) < (x));
+        // let col4 = ~(y < top_left_corner_y) & ~((top_left_corner_y + size) < (y));
+        
+        if(col1 & col2){
+                // new
+            //do Board.setFood(top_left_corner_x, top_left_corner_y, size, false);
+            //do setRandomCords();
+            // do snakeHead.drawSnake();
+            let score = score + 1;
+            return true;
+        }
+        return false;
+
+    }
+    
+    method void dispose(){
+            do Memory.deAlloc(this);
+            return;
+        }
+
+
+}

@@ -1,0 +1,96 @@
+class Board{
+    function void setSnake(Array snake, int size, boolean color){
+        do Screen.setColor(color);
+        do Screen.drawRectangle(snake[1], snake[2], snake[1] + size, snake[2] + size);
+        return;
+    }
+
+    function void setFood(int x, int y, int size, boolean color){
+        do Screen.setColor(color);
+
+        do Screen.drawRectangle(x, y, x + size, y + size);
+        return;
+    }
+
+    function void drawFrame() {
+        do Screen.drawLine(0, 16, 0, 255);
+        do Screen.drawLine(1, 16, 1, 255);
+        do Screen.drawLine(2, 16, 2, 255);
+
+        do Screen.drawLine(0, 14, 511, 14);
+        do Screen.drawLine(0, 15, 510, 15);
+        do Screen.drawLine(0, 16, 509, 16);
+
+        do Screen.drawLine(511, 16, 511, 255);
+        do Screen.drawLine(510, 16, 510, 255);
+        do Screen.drawLine(509, 16, 509, 255);
+
+        do Screen.drawLine(0, 255, 511, 255);
+        do Screen.drawLine(0, 254, 511, 254);
+        do Screen.drawLine(0, 253, 511, 253);
+	return;
+    }
+
+
+
+
+
+
+    function void drawS(int location) {
+        var int memAddress;
+        let memAddress = 16384 + location;
+        do Memory.poke(memAddress + 0, 0);
+        do Memory.poke(memAddress + 32, 0);
+        do Memory.poke(memAddress + 64, 0);
+        do Memory.poke(memAddress + 96, 4092);
+        do Memory.poke(memAddress + 128, 4092);
+        do Memory.poke(memAddress + 160, 12);
+        do Memory.poke(memAddress + 192, 12);
+        do Memory.poke(memAddress + 224, 4092);
+        do Memory.poke(memAddress + 256, 4092);
+        do Memory.poke(memAddress + 288, 3072);
+        do Memory.poke(memAddress + 320, 3072);
+        do Memory.poke(memAddress + 352, 4092);
+        do Memory.poke(memAddress + 384, 4092);
+        do Memory.poke(memAddress + 416, 0);
+        do Memory.poke(memAddress + 448, 0);
+        do Memory.poke(memAddress + 480, 0);
+        return;
+	}
+
+    function void drawO(int location) {
+		var int memAddress;
+		let memAddress = 16384 + location;
+		do Memory.poke(memAddress + 0, 0);
+		do Memory.poke(memAddress + 32, 0);
+		do Memory.poke(memAddress + 64, 0);
+		do Memory.poke(memAddress + 96, 4092);
+		do Memory.poke(memAddress + 128, 4092);
+		do Memory.poke(memAddress + 160, 3084);
+		do Memory.poke(memAddress + 192, 3084);
+		do Memory.poke(memAddress + 224, 3084);
+		do Memory.poke(memAddress + 256, 3084);
+		do Memory.poke(memAddress + 288, 3084);
+		do Memory.poke(memAddress + 320, 3084);
+		do Memory.poke(memAddress + 352, 4092);
+		do Memory.poke(memAddress + 384, 4092);
+		do Memory.poke(memAddress + 416, 0);
+		do Memory.poke(memAddress + 448, 0);
+		do Memory.poke(memAddress + 480, 0);
+		return;
+	}
+
+
+
+    function void drawScoreWord(int spaceSize){
+        var int spaceFromFrame;
+        let spaceFromFrame = 97;
+        do Board.drawS(spaceFromFrame);
+        do Board.drawO(spaceFromFrame + spaceSize);
+    
+        
+        return;
+    }
+
+    
+}

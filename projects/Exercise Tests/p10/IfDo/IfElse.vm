@@ -1,0 +1,19 @@
+function IfElse.main 2
+push argument 0
+pop pointer 0
+push local 0
+push local 1
+lt
+not
+if-goto LABEL_1_start
+push local 0
+push constant 1
+add
+pop local 0
+goto LABEL_2_end
+label LABEL_1_start
+push local 1
+pop local 0
+label LABEL_2_end
+push constant 0
+return

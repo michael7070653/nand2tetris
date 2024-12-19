@@ -1,0 +1,15 @@
+function EmptyIf.main 2
+push argument 0
+pop pointer 0
+push local 0
+push local 1
+lt
+not
+if-goto LABEL_3_start
+goto LABEL_4_end
+label LABEL_3_start
+push local 1
+pop local 0
+label LABEL_4_end
+push constant 0
+return

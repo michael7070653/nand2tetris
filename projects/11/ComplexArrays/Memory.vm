@@ -1,0 +1,335 @@
+function Memory.init 0
+push constant 0
+pop static 0
+push constant 2048
+pop static 1
+push constant 2048
+pop static 2
+push static 1
+push constant 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push static 1
+push constant 1
+add
+push constant 16384
+push constant 2048
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push static 2
+pop static 4
+push constant 0
+return
+function Memory.bestFit 5
+push constant 1
+neg
+pop local 1
+push constant 16384
+push constant 2048
+sub
+pop local 2
+push static 2
+pop local 4
+push constant 0
+pop local 0
+label LABEL_1_start
+push local 4
+push constant 0
+eq
+not
+not
+if-goto LABEL_2_end
+push local 4
+push constant 1
+add
+pop pointer 1
+push that 0
+pop local 3
+push local 3
+push argument 0
+push constant 2
+add
+lt
+not
+not
+if-goto LABEL_3_start
+push local 3
+push local 2
+gt
+not
+not
+if-goto LABEL_5_start
+push local 0
+pop local 1
+push local 3
+pop local 2
+goto LABEL_6_end
+label LABEL_5_start
+label LABEL_6_end
+goto LABEL_4_end
+label LABEL_3_start
+label LABEL_4_end
+push local 4
+pop local 0
+push local 4
+push constant 0
+add
+pop pointer 1
+push that 0
+pop local 4
+goto LABEL_1_start
+label LABEL_2_end
+push local 1
+return
+function Memory.reallocateFreeList 2
+push argument 0
+push constant 0
+eq
+not
+if-goto LABEL_7_start
+push static 2
+pop local 0
+push static 2
+push constant 1
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 0
+push constant 1
+add
+push argument 1
+push constant 2
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push static 2
+push argument 1
+add
+pop static 2
+push static 2
+push constant 1
+add
+push local 1
+push argument 1
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push static 2
+pop static 4
+push local 0
+return
+goto LABEL_8_end
+label LABEL_7_start
+push argument 0
+push constant 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push local 0
+push constant 1
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+push argument 1
+gt
+not
+if-goto LABEL_9_start
+push local 0
+push constant 1
+add
+push local 0
+push constant 1
+add
+pop pointer 1
+push that 0
+push argument 1
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push local 1
+add
+push constant 2
+add
+push argument 1
+sub
+pop local 0
+push local 0
+push constant 1
+add
+push argument 1
+push constant 2
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+return
+goto LABEL_10_end
+label LABEL_9_start
+push argument 0
+push constant 0
+add
+push local 0
+push constant 0
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label LABEL_10_end
+label LABEL_8_end
+push local 0
+return
+function Memory.peek 0
+push static 0
+push argument 0
+add
+pop pointer 1
+push that 0
+return
+function Memory.poke 0
+push static 0
+push argument 0
+add
+push argument 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Memory.alloc 2
+push argument 0
+call Memory.bestFit 1
+pop local 0
+push local 0
+push constant 1
+neg
+eq
+not
+if-goto LABEL_11_start
+push constant 1
+neg
+return
+goto LABEL_12_end
+label LABEL_11_start
+label LABEL_12_end
+push local 0
+push argument 0
+push constant 2
+add
+call Memory.reallocateFreeList 2
+pop local 1
+push local 1
+push constant 1
+add
+push argument 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push constant 2
+add
+return
+function Memory.deAlloc 1
+push argument 0
+push constant 2
+sub
+pop local 0
+push static 4
+push constant 0
+add
+push local 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Memory.max 3
+push argument 0
+pop local 0
+push argument 0
+push constant 0
+add
+pop pointer 1
+push that 0
+pop local 1
+push argument 0
+push argument 0
+push constant 1
+sub
+add
+pop pointer 1
+push that 0
+pop local 2
+label LABEL_13_start
+push local 0
+push local 2
+lt
+not
+if-goto LABEL_14_end
+push argument 0
+push local 0
+add
+pop pointer 1
+push that 0
+push local 1
+gt
+not
+if-goto LABEL_15_start
+push argument 0
+push local 0
+add
+pop pointer 1
+push that 0
+pop local 1
+goto LABEL_16_end
+label LABEL_15_start
+label LABEL_16_end
+push local 0
+push constant 1
+add
+pop local 0
+goto LABEL_13_start
+label LABEL_14_end
+push local 1
+return

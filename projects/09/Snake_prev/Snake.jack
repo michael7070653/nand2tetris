@@ -1,0 +1,144 @@
+class Snake {
+    static int unitSize; //size of each unit of the snake
+    static int size; //size of the snake
+    field Array snakeHead; //array of 3 [next, top_left_corner_x, top_left_corner_y]
+    field Array snakeTail;
+    field int direction; // up - 0, right - 1, down - 2, left - 3
+
+    
+    constructor Snake new(int unit_size) {
+        let unitSize = unit_size;
+        let size = 1;
+        let snakeTail = Array.new(3);
+        let snakeTail[0] = -1;
+        let snakeTail[1] = 256;
+        let snakeTail[2] = 128;
+        let snakeHead = snakeTail;
+        do Screen.drawRectangle(snakeHead[1], snakeHead[2], snakeHead[1] + unit_size, snakeHead[2] + unit_size);
+        let direction = 1;
+        return this;
+    }
+
+
+    method void setDirection(int dir) {
+        let direction = dir;
+        return;
+    }
+
+    method int getDirection() {
+        return direction;
+    }
+
+    method Array getHead() {
+        return snakeHead;
+    }
+
+    method void eat() {
+        var int newX, newY;
+        var Array newHead;
+        let newHead = Array.new(3);
+        if (direction = 0) {
+            let newY = snakeHead[2] - unitSize;
+            let newX = snakeHead[1];
+        }
+        if (direction = 1) {
+            let newX = snakeHead[1] + unitSize;
+            let newY = snakeHead[2];
+        }
+        if (direction = 2) {
+            let newY = snakeHead[2] + unitSize;
+            let newX = snakeHead[1];
+        }
+        if (direction = 3) {
+            let newX = snakeHead[1] - unitSize;
+            let newY = snakeHead[2];
+        }
+        let newHead[1] = newX;
+        let newHead[2] = newY;
+        let snakeHead[0] = newHead;
+        let snakeHead = newHead;
+        let size = size + 1;
+        do Board.setSnake(snakeHead, unitSize, true);
+        return;
+    }
+
+
+    method boolean checkCollision() {
+        var int newX, newY;
+        var Array temp;
+        let newX = snakeHead[1]; // top_left_corner_x
+        let newY = snakeHead[2]; // top_left_corner_y
+        /// need to check if the snake collides with itself
+        if (size > 1) {
+            let temp = snakeTail;
+            while ((temp[0] > -1)) {
+                if ((temp[1] = newX) & (temp[2] = newY)) {
+                    return true;
+                }
+                let temp = temp[0];
+            }
+        }
+        return false;
+    }
+    
+
+    // up - 0, right - 1, down - 2, left - 3
+    method  void move() {
+        var int newX, newY;
+        var Array newHead, temp;
+        do Board.setSnake(snakeTail, unitSize, false);
+        if (direction = 0) { // up
+            let newY = snakeHead[2] - unitSize;
+            let newX = snakeHead[1];
+        }
+        if (direction = 1) { // right
+            let newX = snakeHead[1] + unitSize;
+            let newY = snakeHead[2];
+        }
+        if (direction = 2) { // down
+            let newY = snakeHead[2] + unitSize;
+            let newX = snakeHead[1];
+        }
+        if (direction = 3) { // left
+            let newX = snakeHead[1] - unitSize;
+            let newY = snakeHead[2];
+        }
+        let temp = snakeTail; // problem if size = 1
+        if(temp[0]= -1){ // so tail is also the head
+            let snakeHead[1] = newX;
+            let snakeHead[2] = newY;
+
+        }
+        else{ // so snake tail[0] != -1
+            let snakeTail = temp[0]; // set the new tail to the next element
+            let snakeHead[0] = temp;
+            let snakeHead = temp;
+            let snakeHead[0] = -1;
+            let snakeHead[1] = newX;
+            let snakeHead[2] = newY;
+        }
+        do Board.setSnake(snakeHead, unitSize, true); 
+        return;
+    }   
+
+    method void drawSnake(){
+        var Array temp;
+        let temp = snakeTail;
+        while((temp[0] > -1)){
+            do Screen.drawRectangle(temp[1], temp[2], temp[1] + unitSize, temp[2] + unitSize);
+            let temp = temp[0];
+        }
+        return;
+    }
+
+
+    method void dispose(){
+        var Array temp;
+        let temp = snakeTail;
+        while((temp[0] > -1)){
+            let temp = temp[0];
+            do temp.dispose();
+        }
+        return;
+    }
+}

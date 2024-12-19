@@ -1,0 +1,342 @@
+function Board.setSnake 0
+push argument 2
+call Screen.setColor 1
+pop temp 0
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+push argument 1
+add
+push constant 2
+push argument 0
+add
+pop pointer 1
+push that 0
+push argument 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Board.setFood 0
+push argument 3
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push argument 2
+add
+push argument 1
+push argument 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Board.drawFrame 0
+push constant 0
+push constant 16
+push constant 0
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push constant 1
+push constant 16
+push constant 1
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push constant 2
+push constant 16
+push constant 2
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+push constant 14
+push constant 511
+push constant 14
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+push constant 15
+push constant 510
+push constant 15
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+push constant 16
+push constant 509
+push constant 16
+call Screen.drawLine 4
+pop temp 0
+push constant 511
+push constant 16
+push constant 511
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push constant 510
+push constant 16
+push constant 510
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push constant 509
+push constant 16
+push constant 509
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+push constant 255
+push constant 511
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+push constant 254
+push constant 511
+push constant 254
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+push constant 253
+push constant 511
+push constant 253
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Board.drawS 1
+push constant 16384
+push argument 0
+add
+pop local 0
+push local 0
+push constant 0
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 32
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 64
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 96
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 128
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 160
+add
+push constant 12
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 192
+add
+push constant 12
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 224
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 256
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 288
+add
+push constant 3072
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 320
+add
+push constant 3072
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 352
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 384
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 416
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 448
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 480
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push constant 0
+return
+function Board.drawO 1
+push constant 16384
+push argument 0
+add
+pop local 0
+push local 0
+push constant 0
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 32
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 64
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 96
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 128
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 160
+add
+push constant 3084
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 192
+add
+push constant 3084
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 224
+add
+push constant 3084
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 256
+add
+push constant 3084
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 288
+add
+push constant 3084
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 320
+add
+push constant 3084
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 352
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 384
+add
+push constant 4092
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 416
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 448
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push local 0
+push constant 480
+add
+push constant 0
+call Memory.poke 2
+pop temp 0
+push constant 0
+return
+function Board.drawScoreWord 1
+push constant 97
+pop local 0
+push local 0
+call Board.drawS 1
+pop temp 0
+push local 0
+push argument 0
+add
+call Board.drawO 1
+pop temp 0
+push constant 0
+return

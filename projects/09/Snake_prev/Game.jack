@@ -1,0 +1,153 @@
+class Game{
+    field int unit_size;
+    field int keybord;
+    field Snake snake;
+    field Food food;
+    constructor Game new(int size){ 
+        let keybord  = 24576;
+        let snake = Snake.new(size);
+        let unit_size = size;
+        let food = Food.new(64, 64, size);
+        return this;
+    }
+
+    // up -131 , right -132 , down -133 , left -130
+    // up - 0, right - 1, down - 2, left - 3
+    method boolean setDirection(){
+        var int direction, curDirection;
+        let direction = Memory.peek(keybord);
+        let curDirection = snake.getDirection();
+        if (~(direction = 130) & ~(direction = 131) & ~(direction = 132) & ~(direction = 133)){
+            return false;
+        }
+        if (direction = 132){
+            if (curDirection = 3){
+            return false;}
+            else{
+                do snake.setDirection(1);
+                return true;
+            } // cant do 180 degree turn
+        }
+        if (direction = 131){
+            if (curDirection = 2){
+            return false; }
+            else {
+                do snake.setDirection(0); //up
+                return true;
+            }// cant do 180 degree turn
+        }
+        if (direction = 130){
+            if (curDirection = 1){
+            return false;}
+            else{
+                do snake.setDirection(3); //left
+                return true;
+            } // cant do 180 degree turn
+        }
+        if ((curDirection = 0) & (direction = 133)){
+            return false; // cant do 180 degree turn
+        }
+        else{
+            do snake.setDirection(2); //right
+            return true;
+        }
+    }
+
+
+
+    method boolean checkCollision(){
+        // check borders collision
+        // return fale if out of borders
+        var Array head;
+        var int x, y,direction, rightBorder, downBorder;
+        let head = snake.getHead();
+        let direction = snake.getDirection();
+        let x = head[1];
+        let y = head[2];
+        let rightBorder = 508 - (2 * unit_size);
+        let downBorder = 253 - (2 * unit_size);
+
+        // do Output.printInt(rightBorder);
+        // do Output.printString(" ");
+        // do Output.printInt(downBorder);
+        // do Output.println();
+
+        // up - 0, right - 1, down - 2, left - 3
+
+        if(~(x > 3) & direction = 3){ // go out of left border
+            // do Output.printString("out of left border");
+            return false;
+        }
+        if((x > rightBorder) & (direction = 1)){ // go out of right border
+            // do Output.printString("out of right border");
+            return false; // go out of right border
+        }
+        if(~(y > 16) & (direction = 0)){
+            // do Output.printString("out of top border");
+             // go out of top border
+            return false;
+        }
+        if((y > downBorder) & (direction = 2)){ // go out of bottom border
+            // do Output.printString("out of bottom border");
+            return false;
+        }
+
+        if(~((x + unit_size) < rightBorder)){
+            // do Output.printString("out of right border");
+            return false;
+        }
+
+        if(~((y + unit_size) < downBorder)){
+            // do Output.printString("out of bottom border");
+            return false;
+        }
+
+        if (~(y > 16)){
+            // do Output.printString("out of top border");
+            return false;
+        }
+        if (~(x > 3)){
+            // do Output.printString("out of left border");
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+    method boolean update(){
+        var boolean collides, FoodColides;
+        var int direction;
+        do Sys.wait(80);
+        do setDirection();
+        let collides = checkCollision();
+        if (~collides){
+            return false;
+        }
+        do snake.move();
+        if (snake.checkCollision()){
+            // do Output.printString("Game Over u lose");
+            return false;
+        }
+        let FoodColides = food.collision(snake);
+        if(FoodColides){
+            do Board.setSnake(snake.getHead(),unit_size, true);
+            do Output.moveCursor(0, 0);
+            do Output.printString("score: ");
+            do Output.printInt(food.getScore());
+            do snake.eat();
+        }
+        return true;
+    }   
+
+    method int run(){
+        while (true){
+            if(~(update())){
+                return food.getScore();
+            }
+        }
+        return 0;
+    }
+
+}
