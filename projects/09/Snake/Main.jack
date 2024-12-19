@@ -33,6 +33,15 @@ class Main{
         let i = 0;
         while(i < rounds){
         // add coment  ......
+            do Screen.clearScreen();
+            do Output.moveCursor(0, 0);
+            do Output.printString("round number: ");
+            do Output.printInt(i + 1);
+            do Sys.wait(1000);
+            do Screen.clearScreen();
+            do Board.drawFrame();
+            do Output.moveCursor(0, 0);
+            do Output.printString("Score: 0");
             do Main.oneRoundScreen(i, scoreRounds);
             let i = i + 1;  
         }
