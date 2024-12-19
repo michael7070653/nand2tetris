@@ -2,7 +2,7 @@ function Main.main 12
 push constant 8
 pop local 8
 push constant 12
-call Random.setSeed 1
+call MyRandom.setNewSeed 1
 pop temp 0
 push constant 2600
 call Board.drawWelcome 1
@@ -264,6 +264,26 @@ push local 3
 lt
 not
 if-goto WHILE_END1
+push local 5
+push local 9
+call Main.oneRoundScreen 2
+pop temp 0
+push local 5
+push constant 1
+add
+pop local 5
+goto WHILE_EXP1
+label WHILE_END1
+push local 6
+push local 7
+call Main.endGame 2
+pop temp 0
+push local 0
+call Game.dispose 1
+pop temp 0
+push constant 0
+return
+function Main.oneRoundScreen 0
 push constant 21
 call String.new 1
 push constant 115
@@ -310,7 +330,7 @@ push constant 32
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
-push local 5
+push argument 0
 push constant 1
 add
 call Output.printInt 1
@@ -329,27 +349,14 @@ push constant 32
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
-push local 5
-push local 9
+push argument 0
+push argument 1
 add
 pop pointer 1
 push that 0
 call Output.printInt 1
 pop temp 0
 call Output.println 0
-pop temp 0
-push local 5
-push constant 1
-add
-pop local 5
-goto WHILE_EXP1
-label WHILE_END1
-push local 6
-push local 7
-call Main.endGame 2
-pop temp 0
-push local 0
-call Game.dispose 1
 pop temp 0
 push constant 0
 return
