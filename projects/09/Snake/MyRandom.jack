@@ -1,12 +1,12 @@
-class Random {
+class MyRandom {
     static int seed;
     
-    function void setSeed(int newSeed) {
+    function void setNewSeed(int newSeed) {
         let seed = newSeed;
         return;
     }
 
-    function int rand() {
+    function int random() {
         /** return a random number in the range 0..32767 */
         let seed = seed + 20251;
         if (seed < 0) {
@@ -15,7 +15,7 @@ class Random {
         return seed;
     }
 
-    function int randRange(int range) {
+    function int randomRange(int range) {
         /** return a random number in the range 0..range */
         var int mask;
         var int ret;
@@ -24,9 +24,9 @@ class Random {
         while (mask < range) {
             let mask = mask * 2 + 1;
         }
-        let ret = Random.rand() & mask;
+        let ret = MyRandom.random() & mask;
         while (ret > range) {
-            let ret = Random.rand() & mask;
+            let ret = MyRandom.random() & mask;
         }
         return ret;
     }
