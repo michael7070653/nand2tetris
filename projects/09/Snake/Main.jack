@@ -8,7 +8,7 @@ class Main{
         var Array scoreRounds;
         var String levelMessegeString, roundsMessegeString;
         let size = 8; //new
-        do Random.setSeed(12);
+        do MyRandom.setNewSeed(12);
         do Board.drawWelcome(2600); //new
         do Sys.wait(3000); //new
         do Screen.clearScreen();

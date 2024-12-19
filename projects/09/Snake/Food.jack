@@ -23,9 +23,9 @@ class Food{
     }
     method void setRandomCords(){
         var int x, y;
-        let x = Random.randRange((500) - (2 * size)) / 2 * 2;
+        let x = MyRandom.randomRange((500) - (2 * size)) / 2 * 2;
         let x = Math.max(x, 10);
-        let y = Random.randRange(250 - (2 * size)) / 2 * 2;
+        let y = MyRandom.randomRange(250 - (2 * size)) / 2 * 2;
         let y = Math.max(y, 30);
         let top_left_corner_x = x;
         let top_left_corner_y = y;
