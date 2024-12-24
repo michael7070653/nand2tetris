@@ -30,8 +30,7 @@ def assemble_file(
     while parser.has_more_commands():
         com = parser.get_next_command()
         output_file.write(com + "\n")
-    # lst = ["(END)", "@END", "0;JMP"]
-    # output_file.write("\n".join(lst)+"\n")
+
 
 
 
