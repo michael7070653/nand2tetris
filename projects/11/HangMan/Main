@@ -1,7 +1,0 @@
-class Main {
-    function void main() {
-        var HangMan game;
-        let game = HangMan.new();
-        return;
-    }
-}
